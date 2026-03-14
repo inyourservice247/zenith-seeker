@@ -1,1 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenith Foundation — Career Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:'Inter',sans-serif;background:#0B1F4A;color:#fff;overflow-x:hidden}
+.page{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 60px}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:40px}
+.logo-mark{width:40px;height:40px;background:#1A56DB;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#fff;flex-shrink:0}
+.logo-name{font-size:15px;font-weight:600;color:#fff;line-height:1}
+.logo-sub{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;margin-top:3px}
+.card{width:100%;max-width:420px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 28px}
+.card-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;text-align:center}
+.card-sub{font-size:14px;color:rgba(255,255,255,0.45);text-align:center;margin-bottom:28px;line-height:1.6}
+.step{display:none}
+.step.active{display:block}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;font-weight:500;color:rgba(255,255,255,0.5);margin-bottom:7px;letter-spacing:0.5px}
+.form-group input{width:100%;background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:13px 16px;color:#fff;font-size:15px;font-family:'Inter',sans-serif;outline:none;transition:.2s}
+.form-group input:focus{border-color:#1A56DB;background:rgba(26,86,219,0.1)}
+.form-group input::placeholder{color:rgba(255,255,255,0.25)}
+.btn{width:100%;padding:15px;background:#1A56DB;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-top:8px;transition:.2s}
+.btn:active{background:#1341B0;transform:scale(0.98)}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.mcq-title{font-size:18px;font-weight:600;color:#fff;text-align:center;margin-bottom:6px;line-height:1.4}
+.mcq-sub{font-size:13px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:24px}
+.option{width:100%;padding:16px 18px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:12px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;text-align:left;transition:.2s;display:flex;align-items:center;gap:12px;line-height:1.4}
+.option:active{transform:scale(0.98)}
+.option.selected{background:rgba(26,86,219,0.25);border-color:#1A56DB}
+.option-icon{font-size:20px;flex-shrink:0}
+.progress{display:flex;gap:6px;justify-content:center;margin-bottom:28px}
+.progress-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);transition:.3s}
+.progress-dot.active{background:#1A56DB;width:24px;border-radius:4px}
+.progress-dot.done{background:rgba(26,86,219,0.5)}
+.error{font-size:12.5px;color:#F87171;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="logo">
+    <div class="logo-mark">Z</div>
+    <div>
+      <div class="logo-name">Zenith Foundation</div>
+      <div class="logo-sub">CAREER CLARITY PLATFORM</div>
+    </div>
+  </div>
 
+  <div class="card">
+    <div class="progress">
+      <div class="progress-dot active" id="dot1"></div>
+      <div class="progress-dot" id="dot2"></div>
+      <div class="progress-dot" id="dot3"></div>
+    </div>
+
+    <!-- STEP 1: DETAILS -->
+    <div class="step active" id="step1">
+      <div class="card-title">Welcome to Zenith</div>
+      <div class="card-sub">Free career guidance — powered by AI and real experts. Let's start with your details.</div>
+      <div class="form-group">
+        <label>YOUR NAME</label>
+        <input type="text" id="name" placeholder="What should we call you?">
+      </div>
+      <div class="form-group">
+        <label>EMAIL</label>
+        <input type="email" id="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>PHONE NUMBER</label>
+        <input type="tel" id="phone" placeholder="+91 98765 43210">
+      </div>
+      <div class="error" id="error1">Please fill in all fields.</div>
+      <button class="btn" onclick="submitDetails()">Continue →</button>
+    </div>
+
+    <!-- STEP 2: CAREER STAGE -->
+    <div class="step" id="step2">
+      <div class="mcq-title">Where are you in your career right now?</div>
+      <div class="mcq-sub">Choose the one that fits best.</div>
+      <button class="option" onclick="selectStage(this, 'Student / Fresh Graduate')">
+        <span class="option-icon">🎓</span>
+        <span>Student or fresh graduate — just starting out</span>
+      </button>
+      <button class="option" onclick="selectStage(this, 'Early Career')">
+        <span class="option-icon">💼</span>
+        <span>Working 1–5 years — but something feels off</span>
+      </button>
+      <button class="option" onclick="selectStage(this, 'Stuck / Plateaued')">
+        <span class="option-icon">📊</span>
+        <span>Experienced — but stuck, no growth, no direction</span>
+      </button>
+      <button class="option" onclick="selectStage(this, 'Major Transition')">
+        <span class="option-icon">🔄</span>
+        <span>Want to change everything — field, country, or career</span>
+      </button>
+    </div>
+
+    <!-- STEP 3: FIELD -->
+    <div class="step" id="step3">
+      <div class="mcq-title">Which field are you in?</div>
+      <div class="mcq-sub">Pick the closest match.</div>
+      <button class="option" onclick="selectField(this, 'Medicine & Healthcare')">
+        <span class="option-icon">🏥</span>
+        <span>Medicine & Healthcare</span>
+      </button>
+      <button class="option" onclick="selectField(this, 'Engineering & Tech')">
+        <span class="option-icon">💻</span>
+        <span>Engineering & Tech</span>
+      </button>
+      <button class="option" onclick="selectField(this, 'Business, Finance & MBA')">
+        <span class="option-icon">📈</span>
+        <span>Business, Finance & MBA</span>
+      </button>
+      <button class="option" onclick="selectField(this, 'Law & Civil Services')">
+        <span class="option-icon">⚖️</span>
+        <span>Law & Civil Services</span>
+      </button>
+      <button class="option" onclick="selectField(this, 'Creative & Media')">
+        <span class="option-icon">🎨</span>
+        <span>Creative & Media</span>
+      </button>
+      <button class="option" onclick="selectField(this, 'Other')">
+        <span class="option-icon">✦</span>
+        <span>Other</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const BACKEND = 'https://zenith-backend-mu.vercel.app/api';
+let seekerData = {};
+
+function submitDetails() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const err = document.getElementById('error1');
+
+  if (!name || !email || !phone) {
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  seekerData.name = name;
+  seekerData.email = email;
+  seekerData.phone = phone;
+
+  document.getElementById('step1').classList.remove('active');
+  document.getElementById('step2').classList.add('active');
+  document.getElementById('dot1').classList.remove('active');
+  document.getElementById('dot1').classList.add('done');
+  document.getElementById('dot2').classList.add('active');
+}
+
+function selectStage(el, stage) {
+  seekerData.career_stage = stage;
+  document.querySelectorAll('#step2 .option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+
+  setTimeout(() => {
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step3').classList.add('active');
+    document.getElementById('dot2').classList.remove('active');
+    document.getElementById('dot2').classList.add('done');
+    document.getElementById('dot3').classList.add('active');
+  }, 300);
+}
+
+async function selectField(el, field) {
+  seekerData.field = field;
+  document.querySelectorAll('#step3 .option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  el.innerHTML = '<span class="option-icon">⏳</span><span>Setting up your session...</span>';
+
+  try {
+    const res = await fetch(`${BACKEND}/save-seeker`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(seekerData)
+    });
+    const data = await res.json();
+
+    if (data.seeker_id) {
+      localStorage.setItem('zenith_seeker_id', data.seeker_id);
+      localStorage.setItem('zenith_seeker_name', seekerData.name);
+      localStorage.setItem('zenith_career_stage', seekerData.career_stage);
+      localStorage.setItem('zenith_field', seekerData.field);
+
+      const stageMap = {
+        'Student / Fresh Graduate': 'stage-1.html',
+        'Early Career': 'stage-2.html',
+        'Stuck / Plateaued': 'stage-3.html',
+        'Major Transition': 'stage-4.html'
+      };
+      window.location.href = stageMap[seekerData.career_stage] || 'stage-1.html';
+    } else {
+      el.innerHTML = '<span class="option-icon">🎨</span><span>Creative & Media</span>';
+      alert('Something went wrong. Please try again.');
+    }
+  } catch (e) {
+    el.innerHTML = '<span class="option-icon">✦</span><span>Other</span>';
+    alert('Connection error. Please try again.');
+  }
+}
+</script>
+</body>
+</html>
