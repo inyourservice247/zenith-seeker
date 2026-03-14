@@ -1,1 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenith — Find Your Direction</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:'Inter',sans-serif;background:#0B1F4A;color:#fff;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,31,74,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07)}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-mark{width:32px;height:32px;background:#1A56DB;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff}
+.logo-name{font-size:14px;font-weight:600;color:#fff}
+.nav-btn{padding:8px 18px;background:#1A56DB;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+.hero{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 60px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(26,86,219,0.2);border:1px solid rgba(26,86,219,0.4);border-radius:40px;padding:7px 16px;font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:28px}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:#0EA371;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+h1{font-family:'Playfair Display',serif;font-size:clamp(36px,8vw,64px);font-weight:700;line-height:1.1;margin-bottom:16px;max-width:560px}
+h1 em{font-style:italic;color:#4B80F0}
+.sub{font-size:clamp(15px,4vw,18px);color:rgba(255,255,255,0.55);line-height:1.7;max-width:440px;margin:0 auto 40px}
+.cta{padding:17px 36px;background:#1A56DB;color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:10px;transition:.2s}
+.cta:active{background:#1341B0;transform:scale(0.97)}
+.cta-sub{margin-top:12px;font-size:12px;color:rgba(255,255,255,0.3)}
+.section{padding:80px 24px;max-width:560px;margin:0 auto}
+.section-label{font-size:11px;font-weight:600;letter-spacing:2.5px;color:#4B80F0;margin-bottom:12px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,38px);font-weight:700;line-height:1.2;margin-bottom:16px}
+.section-title em{font-style:italic;color:#4B80F0}
+.section-body{font-size:15px;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:28px}
+.section-cta{width:100%;padding:16px;background:#1A56DB;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:.2s}
+.section-cta:active{background:#1341B0;transform:scale(0.98)}
+.divider{height:1px;background:rgba(255,255,255,0.07);margin:0 24px}
+.sticky-bar{position:fixed;bottom:0;left:0;right:0;padding:14px 20px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(0deg,rgba(11,31,74,0.98) 70%,transparent);pointer-events:none;display:none}
+.sticky-btn{width:100%;max-width:480px;margin:0 auto;display:flex;padding:15px 20px;background:#1A56DB;border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:600;cursor:pointer;align-items:center;justify-content:center;gap:10px;pointer-events:all;font-family:'Inter',sans-serif}
+.sticky-btn:active{background:#1341B0;transform:scale(0.98)}
+.overlay{position:fixed;inset:0;background:rgba(5,12,30,0.88);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px)}
+.overlay.open{display:flex}
+.modal{width:100%;max-width:540px;background:#fff;border-radius:24px 24px 0 0;display:flex;flex-direction:column;max-height:92dvh;overflow:hidden}
+@media(min-width:600px){.overlay{align-items:center}.modal{border-radius:24px;max-height:82dvh;margin:20px}}
+.modal-header{padding:14px 18px;border-bottom:1px solid #EEF2FF;display:flex;align-items:center;gap:10px;background:#FAFCFF;flex-shrink:0}
+.modal-dot{width:8px;height:8px;border-radius:50%;background:#0EA371;animation:pulse 2s infinite;flex-shrink:0}
+.modal-title{font-size:14px;font-weight:600;color:#0B1F4A;flex:1}
+.modal-sub{font-size:11.5px;color:#7A8FAD}
+.modal-close{width:30px;height:30px;background:none;border:none;color:#7A8FAD;font-size:18px;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.modal-close:active{background:#F0F4FF}
+.chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch}
+.msg{max-width:86%}
+.msg.z{align-self:flex-start}
+.msg.u{align-self:flex-end}
+.msg-lbl{font-size:9.5px;font-weight:600;letter-spacing:1.5px;color:#7A8FAD;margin-bottom:4px}
+.msg.u .msg-lbl{text-align:right;color:#1A56DB}
+.bubble{padding:12px 15px;font-size:14px;line-height:1.7;color:#0B1F4A;font-family:'Inter',sans-serif}
+.msg.z .bubble{background:#F0F5FF;border-radius:4px 14px 14px 14px}
+.msg.u .bubble{background:#1A56DB;color:#fff;border-radius:14px 4px 14px 14px;text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 10px;flex-shrink:0}
+.chip{padding:9px 14px;background:#F0F5FF;border:1.5px solid #D6E4FF;color:#1341B0;font-size:13px;cursor:pointer;border-radius:20px;font-family:'Inter',sans-serif;font-weight:500}
+.chip:active{background:#D6E4FF}
+.typing{display:flex;gap:4px;align-items:center;padding:12px 15px;background:#F0F5FF;border-radius:4px 14px 14px 14px;width:fit-content}
+.typing span{width:5px;height:5px;border-radius:50%;background:#1A56DB;opacity:.35;animation:blink 1.4s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.input-row{padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid #EEF2FF;display:flex;gap:8px;background:#FAFCFF;flex-shrink:0}
+.ai-input{flex:1;background:#fff;border:1.5px solid #D6E4FF;border-radius:24px;padding:11px 16px;color:#0B1F4A;font-size:15px;font-family:'Inter',sans-serif;outline:none}
+.ai-input:focus{border-color:#1A56DB}
+.send{padding:11px 18px;background:#1A56DB;color:#fff;border:none;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+.send:active{background:#1341B0}
+.forward-btn{width:calc(100% - 32px);margin:0 16px 12px;padding:13px;background:#0EA371;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;display:none}
+.forward-btn:active{background:#0B8A5F}
+.dashboard-btn{width:calc(100% - 32px);margin:0 16px 12px;padding:13px;background:#F0F5FF;color:#1A56DB;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;display:none}
+</style>
+</head>
+<body>
 
+<nav>
+  <div class="logo">
+    <div class="logo-mark">Z</div>
+    <div class="logo-name">Zenith Foundation</div>
+  </div>
+  <button class="nav-btn" onclick="openAI()">Talk to Zenith AI</button>
+</nav>
+
+<div class="hero">
+  <div class="badge"><span class="badge-dot"></span>AI is online · Free · No sign-up needed</div>
+  <h1>Everyone has a plan<br>except <em>you.</em></h1>
+  <p class="sub">That's not a character flaw. You just haven't had the right conversation yet. Zenith will help you find your direction — for free.</p>
+  <button class="cta" onclick="openAI()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Talk to Zenith AI — it's free
+  </button>
+  <div class="cta-sub">No account needed · Takes 2 minutes</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">YOU ARE NOT ALONE</div>
+  <h2 class="section-title">Your parents want stability.<br>Your friends seem <em>confident.</em></h2>
+  <p class="section-body">LinkedIn makes everyone look like they have it figured out at 22. You don't. And pretending you do is exhausting. You picked a degree. Maybe you loved it, maybe you didn't. Either way — nobody told you what comes after.</p>
+  <p class="section-body">Nobody told you how to choose between a job and a masters. Nobody told you what your degree is actually worth in the market. Nobody told you it's okay to not know yet — but here's what to do about it.</p>
+  <button class="section-cta" onclick="openAI()">That's exactly what Zenith does →</button>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">NOT GENERIC ADVICE</div>
+  <h2 class="section-title">Not "follow your passion."<br><em>A real conversation.</em></h2>
+  <p class="section-body">Zenith asks you the right questions. Listens. Then gives you a clear, honest, step-by-step roadmap built around your situation — your degree, your city, your options. If you need more — a real expert is available.</p>
+  <button class="section-cta" onclick="openAI()">Start the conversation →</button>
+</div>
+
+<div class="divider"></div>
+
+<div class="section" style="text-align:center">
+  <h2 class="section-title">You've waited long enough<br>to figure this <em>out.</em></h2>
+  <button class="cta" onclick="openAI()" style="margin:0 auto">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Talk to Zenith AI — it's free
+  </button>
+  <div class="cta-sub" style="margin-top:12px">If you need to go deeper — a real expert is available.</div>
+</div>
+
+<div style="height:80px"></div>
+
+<div class="sticky-bar" id="stickyBar">
+  <button class="sticky-btn" onclick="openAI()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Talk to Zenith AI
+  </button>
+</div>
+
+<!-- AI MODAL -->
+<div class="overlay" id="aiModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-dot"></div>
+      <div>
+        <div class="modal-title">Zenith AI</div>
+        <div class="modal-sub">Career clarity guide · Online</div>
+      </div>
+      <button class="modal-close" onclick="closeAI()">✕</button>
+    </div>
+    <div class="chat" id="chat">
+      <div class="msg z">
+        <div class="msg-lbl">ZENITH</div>
+        <div class="bubble">Hey! I'm Zenith — your career clarity guide.<br><br>I'll ask a couple of focused questions, then give you a clear, personalised roadmap.<br><br><strong>Where are you right now in your career?</strong></div>
+      </div>
+    </div>
+    <div class="chips" id="chips">
+      <div class="chip" onclick="selectQ('I just graduated and have no idea where to start')">Just graduated</div>
+      <div class="chip" onclick="selectQ('I am in my final year and confused about what to do next')">Final year student</div>
+      <div class="chip" onclick="selectQ('I have a degree but it does not feel right for me')">Wrong degree</div>
+      <div class="chip" onclick="selectQ('I do not know whether to work or do further studies')">Job vs studies?</div>
+    </div>
+    <button class="forward-btn" id="forwardBtn" onclick="forwardToExpert()">Forward to Expert Counsellor</button>
+    <button class="dashboard-btn" id="dashboardBtn" onclick="gotoDashboard()">View My Dashboard →</button>
+    <div class="input-row">
+      <input class="ai-input" id="aiInput" placeholder="Type your situation..." onkeypress="if(event.key==='Enter')send()">
+      <button class="send" onclick="send()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const BACKEND = 'https://zenith-backend-mu.vercel.app/api';
+const history = [];
+let awaitingForward = false;
+let awaitingSatisfied = false;
+let lastReframedQuestion = '';
+let lastAiAnswer = '';
+let questionSaved = false;
+
+const seekerId = localStorage.getItem('zenith_seeker_id');
+const seekerName = localStorage.getItem('zenith_seeker_name');
+const careerStage = localStorage.getItem('zenith_career_stage');
+const field = localStorage.getItem('zenith_field');
+
+function openAI() {
+  document.getElementById('aiModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAI() {
+  document.getElementById('aiModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function gotoDashboard() {
+  window.location.href = 'dashboard.html';
+}
+
+function selectQ(q) {
+  document.getElementById('aiInput').value = q;
+  send();
+}
+
+async function send() {
+  const inp = document.getElementById('aiInput');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+  document.getElementById('chips').style.display = 'none';
+
+  const lowerMsg = msg.toLowerCase();
+
+  // handle forward confirmation
+  if (awaitingForward) {
+    awaitingForward = false;
+    if (lowerMsg.includes('yes')) {
+      await saveAndForward();
+      return;
+    } else {
+      addMsg('u', msg);
+      addMsg('z', "No problem. I hope what we covered was still helpful. Feel free to come back anytime. You can also view your session in your dashboard.");
+      document.getElementById('dashboardBtn').style.display = 'block';
+      return;
+    }
+  }
+
+  // handle satisfied check
+  if (awaitingSatisfied) {
+    awaitingSatisfied = false;
+    if (lowerMsg.includes('yes')) {
+      addMsg('u', msg);
+      addMsg('z', "Glad I could help! Your roadmap has been saved to your dashboard. Whenever you're ready for the next step — I'm here.\n\nIf you ever feel you need deeper, personalised guidance from a real expert, you can always come back and request that too.");
+      document.getElementById('dashboardBtn').style.display = 'block';
+      await saveQuestion('ai_answered');
+      return;
+    } else {
+      addMsg('u', msg);
+      awaitingForward = true;
+      addMsg('z', "I understand — some situations need a human perspective. Would you like me to forward your question to an expert counsellor who specialises in your field? They will respond personally.\n\nReply Yes or No.");
+      document.getElementById('forwardBtn').style.display = 'block';
+      return;
+    }
+  }
+
+  addMsg('u', msg);
+  history.push({ role: 'user', content: msg });
+  const tid = addTyping();
+
+  try {
+    const res = await fetch(`${BACKEND}/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: history })
+    });
+    const data = await res.json();
+    removeTyping(tid);
+
+    const reply = data.content?.[0]?.text || 'Something went wrong. Please try again.';
+    addMsg('z', reply);
+    history.push({ role: 'assistant', content: reply });
+
+    // extract reframed question
+    if (reply.includes('Let me make sure I understand you correctly')) {
+      lastReframedQuestion = reply;
+    }
+
+    // detect satisfied check
+    if (reply.includes('Did this answer your question')) {
+      lastAiAnswer = reply;
+      awaitingSatisfied = true;
+    }
+
+    // detect forward offer
+    if (reply.includes('forward your question to an expert')) {
+      awaitingForward = true;
+      document.getElementById('forwardBtn').style.display = 'block';
+    }
+
+  } catch (e) {
+    removeTyping(tid);
+    addMsg('z', 'Connection issue. Please try again.');
+  }
+}
+
+async function saveQuestion(status) {
+  if (questionSaved || !seekerId) return;
+  questionSaved = true;
+  try {
+    await fetch(`${BACKEND}/save-question`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        seeker_id: seekerId,
+        original_messages: history,
+        reframed_question: lastReframedQuestion || history.find(m => m.role === 'user')?.content || '',
+        ai_answer: lastAiAnswer || '',
+        field_tag: field || 'Other',
+        status
+      })
+    });
+  } catch (e) {}
+}
+
+async function saveAndForward() {
+  addMsg('u', 'Yes');
+  addMsg('z', "Your question has been forwarded to an expert counsellor in your field. You'll receive an email when they respond. You can also check your dashboard anytime.");
+  document.getElementById('forwardBtn').style.display = 'none';
+  document.getElementById('dashboardBtn').style.display = 'block';
+  await saveQuestion('forwarded');
+}
+
+function forwardToExpert() {
+  awaitingForward = false;
+  saveAndForward();
+}
+
+function addMsg(role, text) {
+  const chat = document.getElementById('chat');
+  const d = document.createElement('div');
+  d.className = 'msg ' + role;
+  const clean = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>');
+  d.innerHTML = '<div class="msg-lbl">' + (role === 'z' ? 'ZENITH' : 'YOU') + '</div><div class="bubble">' + clean + '</div>';
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+}
+function addTyping() {
+  const chat = document.getElementById('chat');
+  const d = document.createElement('div');
+  d.className = 'msg z';
+  const id = 't' + Date.now();
+  d.id = id;
+  d.innerHTML = '<div class="msg-lbl">ZENITH</div><div class="typing"><span></span><span></span><span></span></div>';
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+  return id;
+}
+function removeTyping(id) { const el = document.getElementById(id); if (el) el.remove(); }
+
+// sticky bar
+const ctaBtn = document.querySelector('.cta');
+const bar = document.getElementById('stickyBar');
+const io = new IntersectionObserver(e => { bar.style.display = e[0].isIntersecting ? 'none' : 'block'; }, { threshold: 0.5 });
+io.observe(ctaBtn);
+</script>
+</body>
+</html>
