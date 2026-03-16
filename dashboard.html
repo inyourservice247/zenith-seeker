@@ -1,1 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenith — My Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;font-family:'Inter',sans-serif;background:#0B1F4A;color:#fff}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,31,74,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07)}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-mark{width:32px;height:32px;background:#1A56DB;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff}
+.logo-name{font-size:14px;font-weight:600;color:#fff}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-name{font-size:13px;color:rgba(255,255,255,0.45)}
+.page{padding:88px 24px 60px;max-width:640px;margin:0 auto}
+.welcome{margin-bottom:32px}
+.welcome-label{font-size:11px;font-weight:600;letter-spacing:2px;color:#4B80F0;margin-bottom:8px}
+.welcome-title{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,36px);font-weight:700;line-height:1.2;color:#fff}
+.welcome-sub{font-size:14px;color:rgba(255,255,255,0.45);margin-top:6px;line-height:1.6}
+.loading{text-align:center;padding:60px 0;color:rgba(255,255,255,0.35);font-size:14px}
+.empty{text-align:center;padding:60px 0}
+.empty-icon{font-size:40px;margin-bottom:16px}
+.empty-title{font-size:18px;font-weight:600;color:#fff;margin-bottom:8px}
+.empty-sub{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:24px}
+.btn-blue{padding:14px 28px;background:#1A56DB;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+.btn-blue:active{background:#1341B0}
+.question-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:16px;margin-bottom:16px;overflow:hidden}
+.q-card-header{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.q-field{font-size:10px;font-weight:600;letter-spacing:1.5px;color:#4B80F0;background:rgba(26,86,219,0.15);padding:4px 10px;border-radius:6px}
+.q-status{font-size:10px;font-weight:600;letter-spacing:1px;padding:4px 10px;border-radius:6px}
+.q-status.ai{color:#0EA371;background:rgba(14,163,113,0.12)}
+.q-status.forwarded{color:#F59E0B;background:rgba(245,158,11,0.12)}
+.q-status.answered{color:#0EA371;background:rgba(14,163,113,0.12)}
+.q-date{font-size:11px;color:rgba(255,255,255,0.25);margin-left:auto}
+.q-question{font-size:15px;font-weight:500;color:#fff;line-height:1.5}
+.q-card-body{padding:18px 20px}
+.answer-label{font-size:10px;font-weight:600;letter-spacing:1.5px;margin-bottom:10px}
+.answer-label.ai{color:rgba(26,86,219,0.7)}
+.answer-label.expert{color:rgba(14,163,113,0.8)}
+.answer-text{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.75}
+.answer-text strong{color:#fff;font-weight:500}
+.waiting{display:flex;align-items:center;gap:10px;padding:14px 0}
+.waiting-dot{width:8px;height:8px;border-radius:50%;background:#F59E0B;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.waiting-text{font-size:13px;color:rgba(255,255,255,0.4)}
+.counsellor-tag{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06)}
+.counsellor-av{width:28px;height:28px;border-radius:50%;background:rgba(14,163,113,0.15);border:1px solid rgba(14,163,113,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#0EA371;flex-shrink:0}
+.counsellor-name{font-size:12px;color:rgba(255,255,255,0.4)}
+.counsellor-name strong{color:rgba(255,255,255,0.7);font-weight:500}
+.cta-card{background:rgba(26,86,219,0.12);border:1px solid rgba(26,86,219,0.25);border-radius:16px;padding:24px;margin-top:8px;margin-bottom:24px;text-align:center}
+.cta-card-title{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
+.cta-card-sub{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.6;margin-bottom:18px}
+.cta-card-btn{padding:13px 28px;background:#1A56DB;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+.cta-card-btn:active{background:#1341B0}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0EA371;color:#fff;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:500;z-index:999;display:none;white-space:nowrap}
+</style>
+</head>
+<body>
 
+<nav>
+  <div class="logo">
+    <div class="logo-mark">Z</div>
+    <div class="logo-name">Zenith Foundation</div>
+  </div>
+  <div class="nav-right">
+    <span class="nav-name" id="navName"></span>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="welcome">
+    <div class="welcome-label">YOUR DASHBOARD</div>
+    <h1 class="welcome-title" id="welcomeTitle">Your career roadmap</h1>
+    <p class="welcome-sub" id="welcomeSub">Your questions, AI answers, and expert guidance — all in one place.</p>
+  </div>
+
+  <div id="content">
+    <div class="loading">Loading your session...</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const BACKEND = 'https://zenith-backend-mu.vercel.app/api';
+const seekerId = localStorage.getItem('zenith_seeker_id');
+const seekerName = localStorage.getItem('zenith_seeker_name');
+const careerStage = localStorage.getItem('zenith_career_stage');
+
+if (seekerName) {
+  document.getElementById('navName').textContent = seekerName;
+  document.getElementById('welcomeTitle').textContent = 'Hey ' + seekerName.split(' ')[0] + '.';
+  document.getElementById('welcomeSub').textContent = 'Here\'s everything from your Zenith sessions.';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 3000);
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function getStatusLabel(status) {
+  if (status === 'ai_answered') return '<span class="q-status ai">AI Answered</span>';
+  if (status === 'forwarded') return '<span class="q-status forwarded">Awaiting Expert</span>';
+  if (status === 'counsellor_answered') return '<span class="q-status answered">Expert Answered</span>';
+  return '';
+}
+
+function cleanText(text) {
+  if (!text) return '';
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br>');
+}
+
+async function trackCtaClick() {
+  if (!seekerId || !careerStage) return;
+  try {
+    await fetch(`${BACKEND}/track-cta`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ seeker_id: seekerId, career_stage: careerStage })
+    });
+  } catch (e) {}
+  showToast('Thanks for your interest! We will reach out to you personally.');
+}
+
+async function loadDashboard() {
+  const content = document.getElementById('content');
+
+  if (!seekerId) {
+    content.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🔒</div>
+        <div class="empty-title">No session found</div>
+        <div class="empty-sub">It looks like you haven't started a session yet. Go back and tell Zenith your situation.</div>
+        <button class="btn-blue" onclick="window.location.href='index.html'">Get Started →</button>
+      </div>`;
+    return;
+  }
+
+  try {
+    const res = await fetch(`${BACKEND}/get-dashboard?seeker_id=${seekerId}`);
+    const data = await res.json();
+
+    if (!data.success) throw new Error(data.error);
+
+    const { questions } = data;
+
+    if (!questions || questions.length === 0) {
+      content.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">💬</div>
+          <div class="empty-title">No questions yet</div>
+          <div class="empty-sub">Start a conversation with Zenith AI and your roadmap will appear here.</div>
+          <button class="btn-blue" onclick="history.back()">Talk to Zenith AI →</button>
+        </div>`;
+      return;
+    }
+
+    let html = '';
+
+    questions.forEach(q => {
+      const aiAnswerClean = cleanText(q.ai_answer);
+      const hasExpertAnswer = q.answers && q.answers.length > 0;
+      const expertAnswer = hasExpertAnswer ? q.answers[0] : null;
+      const counsellorName = expertAnswer?.counsellors?.name || 'Expert Counsellor';
+      const counsellorInitials = counsellorName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+
+      html += `
+        <div class="question-card">
+          <div class="q-card-header">
+            <div class="q-meta">
+              <span class="q-field">${q.field_tag || 'General'}</span>
+              ${getStatusLabel(q.status)}
+              <span class="q-date">${formatDate(q.created_at)}</span>
+            </div>
+            <div class="q-question">${q.reframed_question || 'Career guidance session'}</div>
+          </div>
+          <div class="q-card-body">`;
+
+      // AI answer
+      if (q.ai_answer) {
+        html += `
+            <div class="answer-label ai">ZENITH AI ROADMAP</div>
+            <div class="answer-text">${aiAnswerClean}</div>`;
+      }
+
+      // Expert answer
+      if (hasExpertAnswer) {
+        html += `
+            <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
+              <div class="answer-label expert">EXPERT COUNSELLOR ANSWER</div>
+              <div class="answer-text">${cleanText(expertAnswer.answer_text)}</div>
+              <div class="counsellor-tag">
+                <div class="counsellor-av">${counsellorInitials}</div>
+                <div class="counsellor-name">Answered by <strong>${counsellorName}</strong></div>
+              </div>
+            </div>`;
+      } else if (q.status === 'forwarded') {
+        html += `
+            <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06)">
+              <div class="waiting">
+                <div class="waiting-dot"></div>
+                <div class="waiting-text">Your question has been forwarded to an expert counsellor. You'll receive an email when they respond.</div>
+              </div>
+            </div>`;
+      }
+
+      html += `</div></div>`;
+    });
+
+    // 1:1 CTA
+    html += `
+      <div class="cta-card">
+        <div class="cta-card-title">Want deeper, personalised guidance?</div>
+        <div class="cta-card-sub">Book a 1-on-1 session with an expert counsellor who specialises in your exact field and situation.</div>
+        <button class="cta-card-btn" onclick="trackCtaClick()">I'm interested in 1:1 coaching</button>
+      </div>`;
+
+    content.innerHTML = html;
+
+  } catch (e) {
+    content.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">⚠️</div>
+        <div class="empty-title">Could not load dashboard</div>
+        <div class="empty-sub">There was a connection issue. Please try refreshing the page.</div>
+        <button class="btn-blue" onclick="loadDashboard()">Try Again</button>
+      </div>`;
+  }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>
